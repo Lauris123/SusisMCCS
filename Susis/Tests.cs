@@ -34,5 +34,17 @@ namespace Susis
             Assert.AreEqual(targetResult, result);
         }
 
+
+        [Test]
+        public void WriteLinesTest()
+        {
+            string result = MainWindow.WriteLines(new[]
+            {
+                "aaaa",
+                "bbbb"
+            });
+
+            Assert.AreEqual("aaaa" + Environment.NewLine + "bbbb", result);
+        }
     }
 }

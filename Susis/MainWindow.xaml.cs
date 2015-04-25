@@ -28,6 +28,8 @@ namespace Susis
             InitializeComponent();
         }
 
+        public static string endl = Environment.NewLine;
+
         public static string SuperKrutāFunkcijaKuraKompilēKodu(string code)
         {
             string rezultāts = @".586
@@ -44,7 +46,8 @@ includelib\masm32\lib\user32.lib
 includelib\masm32\lib\kernel32.lib
 include \masm32\include\msvcrt.inc
 includelib \masm32\lib\msvcrt.lib" + Environment.NewLine +
-".data";
+".data"+endl+
+"x db \"X\" ,0";
             string[] komandas = code.Split('\n');
             bool VaiIrKods = false;
             foreach (var komanda in komandas)
@@ -189,10 +192,31 @@ main PROC";
                     }
                     rezultāts += Environment.NewLine + "mov eax , input()" + Environment.NewLine + "mov " + komandasDaļas[1] + " , eax";
                 }
-                if (Nosaukums == "BAITSNOATMIŅAS") 
+                if (Nosaukums == "IELASĪT4")
                 {
-                    rezultāts += Environment.NewLine + "mov ah , byte ptr " + komandasDaļas[1] + Environment.NewLine + " movsx ebx , ah " +
-                        Environment.NewLine + " mov eax, ebx"+Environment.NewLine+"mov "+komandasDaļas[2]+", eax";
+                    rezultāts += endl+"mov eax, " + komandasDaļas[1] + Environment.NewLine +
+                                 "mov ecx , [eax] " + Environment.NewLine +
+                                 "and ecx, 00000000000000000000000011111111b"+ Environment.NewLine+
+                                 "mov "+komandasDaļas[2]+", ecx" + Environment.NewLine +
+                                 "mov eax, " + komandasDaļas[1] + Environment.NewLine +
+                                 "mov ecx , [eax] " + Environment.NewLine +
+                                 "shr ecx,8"+ Environment.NewLine+
+                                 "and ecx, 00000000000000000000000011111111b"+endl+
+                                 "mov "+komandasDaļas[3]+", ecx" + Environment.NewLine +
+                                 "mov eax, " + komandasDaļas[1] + Environment.NewLine +
+                                 "mov ecx , [eax] " + Environment.NewLine +
+                                 "shr ecx,16"+ Environment.NewLine+
+                                 "and ecx, 00000000000000000000000011111111b"+endl+
+                                 "mov "+komandasDaļas[4]+", ecx" + Environment.NewLine +
+                                 "mov eax, " + komandasDaļas[1] + Environment.NewLine +
+                                 "mov ecx , [eax] " + Environment.NewLine +
+                                 "shr ecx,24"+ Environment.NewLine+
+                                 "and ecx, 00000000000000000000000011111111b"+endl+
+                                 "mov "+komandasDaļas[5]+", ecx" + Environment.NewLine;
+                }
+                if (Nosaukums == "IZVADĪTČARU") 
+                {
+                    rezultāts +=endl+"mov ecx,"+komandasDaļas[1]+endl+ "mov x, cl" + endl + "invoke StdOut, addr x";
                 }
 
             }
@@ -206,6 +230,11 @@ END main";
             }
 
             return rezultāts;
+        }
+
+        public static string WriteLines(string[] arr)
+        {
+            return arr.Aggregate((all, next) => all + Environment.NewLine + next);
         }
 
         private static string Kalkulēt(string rezultāts, string[] komandasDaļas, string metode)
@@ -373,3 +402,16 @@ END main";
 //ret
 // main ENDP
 //END main
+
+
+//NOSAUKT A
+//NOSAUKT B
+//NOSAUKT C
+//NOSAUKT D
+//NOSAUKT X
+//IELASĪT X
+//IELASĪT4 X A B C D
+//IZVADĪT A
+//IZVADĪT B
+//IZVADĪT C
+//IZVADĪT D
