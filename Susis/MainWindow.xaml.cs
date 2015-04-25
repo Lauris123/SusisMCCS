@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 
 namespace Susis
 {
+    //a
     public partial class MainWindow : Window
     {
         protected int x = 0;
