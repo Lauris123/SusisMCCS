@@ -19,8 +19,8 @@ namespace Susis
     //ab
     public partial class MainWindow : Window
     {
-        protected int x = 0;
-        protected int z = 0;
+        protected static int x = 0;
+        protected static int z = 0;
 
         Dictionary<string, string> funkcijas = new Dictionary<string, string>();
         public MainWindow()
@@ -28,7 +28,7 @@ namespace Susis
             InitializeComponent();
         }
 
-        private string SuperKrutāFunkcijaKuraKompilēKodu(string code)
+        public static string SuperKrutāFunkcijaKuraKompilēKodu(string code)
         {
             string rezultāts = @".586
 .MODEL flat, stdcall
