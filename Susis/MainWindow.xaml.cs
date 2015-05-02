@@ -246,6 +246,19 @@ main PROC";
                     }
                     rezultāts += endl + "invoke StdOut, addr " + komandasDaļas[1];
                 }
+                if (Nosaukums == "IELASĪTČARU")
+                {
+                    {
+                        VaiIrKods = true; rezultāts = rezultāts + "\r\n" + @" .code
+main PROC";
+                    }
+                    rezultāts += Environment.NewLine + "mov eax , input()" + Environment.NewLine + "mov " + komandasDaļas[1] + " , eax"+endl
+                        +"mov eax, " + komandasDaļas[1] + Environment.NewLine +
+                                 "mov ecx , [eax] " + Environment.NewLine +
+                                 "and ecx, 00000000000000000000000011111111b"+ Environment.NewLine+
+                                 "mov "+komandasDaļas[1]+", ecx";
+
+                }
 
             }
             if (rezultāts != "")
@@ -272,7 +285,7 @@ END main";
 
                 //Create Process Start information
                 ProcessStartInfo processStartInfo =
-                    new ProcessStartInfo(@"C:\\temp\\scm.exe");
+                    new ProcessStartInfo(@"C:\\scm.exe");
                 processStartInfo.ErrorDialog = false;
                 processStartInfo.UseShellExecute = false;
                 processStartInfo.RedirectStandardError = true;
