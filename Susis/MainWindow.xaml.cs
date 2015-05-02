@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -63,7 +65,7 @@ includelib \masm32\lib\msvcrt.lib" + Environment.NewLine +
                 {
                     if (VaiIrKods == false)
                     {
-                        rezultāts += "\r\n" + komandasDaļas[1] + " db ";
+                        rezultāts += "\r\n" + komandasDaļas[1] + " dd ";
                         if (komandasDaļas.Length == 4)
                         {
                             if (komandasDaļas[3] != "")
@@ -78,6 +80,18 @@ includelib \masm32\lib\msvcrt.lib" + Environment.NewLine +
                         else {
                             rezultāts += "?";
                         }
+                    }
+                }
+                if (Nosaukums == "TEKSTS")
+                {
+                    if (VaiIrKods == false)
+                    { 
+                        string s = "";
+                        for (int i = 3; i < komandasDaļas.Length -1; i++)
+                            s  += komandasDaļas[i]+" ";
+                        s = s.Trim();
+                        rezultāts += endl + komandasDaļas[1] + " db \"" +s+ "\",0";
+
                     }
                 }
                 if (Nosaukums == "Kalkulēt".ToUpper())
@@ -177,7 +191,12 @@ main PROC";
                         VaiIrKods = true; rezultāts = rezultāts + "\r\n" + @" .code
 main PROC";
                     }
-                    rezultāts += Environment.NewLine + "print chr$(13,10)";
+                    string kompilacijasRezultāts = IzsaucamIebūvētoKompilātoru("rnda");
+                    if(kompilacijasRezultāts == "err rnda") {
+                        MessageBox.Show("Kļūda kompilātorā err rnda");
+                            return "";
+                    }
+                    rezultāts += Environment.NewLine + kompilacijasRezultāts;
                 }
                 if (Nosaukums == "PALIELINĀT")
                 {
@@ -218,18 +237,85 @@ main PROC";
                 {
                     rezultāts +=endl+"mov ecx,"+komandasDaļas[1]+endl+ "mov x, cl" + endl + "invoke StdOut, addr x";
                 }
+                if (Nosaukums == "IZVADĪTTEKSTU")
+                {
+                    if (VaiIrKods == false)
+                    {
+                        VaiIrKods = true; rezultāts = rezultāts + "\r\n" + @" .code
+main PROC";
+                    }
+                    rezultāts += endl + "invoke StdOut, addr " + komandasDaļas[1];
+                }
 
             }
             if (rezultāts != "")
             {
                 rezultāts = rezultāts + @"
-mov eax, input (""beigas"")
 ret
  main ENDP
 END main";
             }
 
             return rezultāts;
+        }
+
+        private static string IzsaucamIebūvētoKompilātoru(string p)
+        {
+
+
+            StreamReader outputReader = null;
+            StreamReader errorReader = null;
+
+            try
+            {
+
+
+                //Create Process Start information
+                ProcessStartInfo processStartInfo =
+                    new ProcessStartInfo(@"C:\\temp\\scm.exe");
+                processStartInfo.ErrorDialog = false;
+                processStartInfo.UseShellExecute = false;
+                processStartInfo.RedirectStandardError = true;
+                processStartInfo.RedirectStandardInput = true;
+                processStartInfo.RedirectStandardOutput = true;
+
+                //Execute the process
+                Process process = new Process();
+                process.StartInfo = processStartInfo;
+                bool processStarted = process.Start();
+                if (processStarted)
+                {
+                    //Get the output stream
+                    StreamWriter myStreamWriter = process.StandardInput;
+
+                    myStreamWriter.Write(p);
+                    myStreamWriter.Close();
+
+                    outputReader = process.StandardOutput;
+                    errorReader = process.StandardError;
+                    process.WaitForExit();
+
+                    return outputReader.ReadToEnd();
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (outputReader != null)
+                {
+                    outputReader.Close();
+                }
+                if (errorReader != null)
+                {
+                    errorReader.Close();
+                }
+            }
+
+            return null;
         }
 
         public static string WriteLines(string[] arr)
@@ -415,3 +501,67 @@ END main";
 //IZVADĪT B
 //IZVADĪT C
 //IZVADĪT D
+/*
+NOSAUKT A
+IELASĪT A
+IZVADĪT A
+*/
+
+//NOSAUKT X
+//TEKSTS B " PAREIZI "
+//TEKSTS FF " IEVADI PAROLI! "
+//TEKSTS D " NEPAREIZI "
+//NOSAUKT CC
+//NOSAUKT DDD
+//NOSAUKT AA
+//NOSAUKT RR
+//IZVADĪTTEKSTU FF
+//IELASĪT X
+//IELASĪT4 X CC DDD AA RR
+//VAI CC = 97
+//IZVADĪTTEKSTU B
+//RINDA
+//NĒ
+//IZVADĪTTEKSTU D
+//RINDA
+//PĀRSTĀT
+
+//TEKSTS rnda " print chr$(13,10) "
+//TEKSTS err " err rnda "
+//NOSAUKT A
+//NOSAUKT B
+//NOSAUKT CC
+//NOSAUKT D
+//NOSAUKT X
+//NOSAUKT bools
+//NOSAUKT GG = 1
+//NOSAUKT QQ = 0
+//IELASĪT X
+//IELASĪT4 X A B CC D
+//VAI A = 114 
+//PIEŠĶIRT bools GG
+//NĒ
+//PIEŠĶIRT bools QQ
+//PĀRSTĀT
+//VAI B = 110 
+//PIEŠĶIRT bools GG
+//NĒ
+//PIEŠĶIRT bools QQ
+//PĀRSTĀT
+//VAI CC = 100 
+//PIEŠĶIRT bools GG
+//NĒ
+//PIEŠĶIRT bools QQ
+//PĀRSTĀT
+//VAI D = 97 
+//PIEŠĶIRT bools GG
+//NĒ
+//PIEŠĶIRT bools QQ
+//PĀRSTĀT
+//VAI bools = 1
+//IZVADĪTTEKSTU rnda
+//NĒ
+//IZVADĪTTEKSTU err
+//PĀRSTĀT
+//IELASĪT X
+
