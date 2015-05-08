@@ -63,6 +63,18 @@ includelib \masm32\lib\msvcrt.lib" + Environment.NewLine +
                 }
                 if (Nosaukums == "NOSAUKT")
                 {
+                    if (komandasDaļas[1]== "TEKSTS")
+                    {
+                        if (VaiIrKods == false)
+                        {
+                            string s = "";
+                            for (int i = 3; i < komandasDaļas.Length - 1; i++)
+                                s += komandasDaļas[i] + " ";
+                            s = s.Trim();
+                            rezultāts += endl + komandasDaļas[1] + " db \"" + s + "\",0";
+
+                        }
+                    }
                     if (VaiIrKods == false)
                     {
                         rezultāts += "\r\n" + komandasDaļas[1] + " dd ";
@@ -80,18 +92,6 @@ includelib \masm32\lib\msvcrt.lib" + Environment.NewLine +
                         else {
                             rezultāts += "?";
                         }
-                    }
-                }
-                if (Nosaukums == "TEKSTS")
-                {
-                    if (VaiIrKods == false)
-                    { 
-                        string s = "";
-                        for (int i = 3; i < komandasDaļas.Length -1; i++)
-                            s  += komandasDaļas[i]+" ";
-                        s = s.Trim();
-                        rezultāts += endl + komandasDaļas[1] + " db \"" +s+ "\",0";
-
                     }
                 }
                 if (Nosaukums == "Kalkulēt".ToUpper())
