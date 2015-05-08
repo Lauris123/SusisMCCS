@@ -68,7 +68,7 @@ includelib \masm32\lib\msvcrt.lib" + Environment.NewLine +
                         if (VaiIrKods == false)
                         {
                             string s = "";
-                            for (int i = 3; i < komandasDaļas.Length - 1; i++)
+                            for (int i = 4; i < komandasDaļas.Length - 1; i++)
                                 s += komandasDaļas[i] + " ";
                             s = s.Trim();
                             rezultāts += endl + komandasDaļas[1] + " db \"" + s + "\",0";
