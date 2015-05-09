@@ -63,35 +63,51 @@ includelib \masm32\lib\msvcrt.lib" + Environment.NewLine +
                 }
                 if (Nosaukums == "NOSAUKT")
                 {
-                    if (komandasDaļas[1]== "TEKSTS")
+                    if (VaiIrKods == false)
                     {
-                        if (VaiIrKods == false)
+                        if (komandasDaļas[1]== "TEKSTS")
                         {
                             string s = "";
-                            for (int i = 4; i < komandasDaļas.Length - 1; i++)
+                            for (int i = 3; i < komandasDaļas.Length - 1; i++)
                                 s += komandasDaļas[i] + " ";
                             s = s.Trim();
                             rezultāts += endl + komandasDaļas[1] + " db \"" + s + "\",0";
 
+
                         }
-                    }
-                    if (VaiIrKods == false)
-                    {
-                        rezultāts += "\r\n" + komandasDaļas[1] + " dd ";
-                        if (komandasDaļas.Length == 4)
+                        else
                         {
-                            if (komandasDaļas[3] != "")
+
+                            rezultāts += "\r\n" + komandasDaļas[1] + " dd ";
+                            if (komandasDaļas.Length == 4)
                             {
-                                rezultāts += komandasDaļas[3];
+                                if (komandasDaļas[3] != "")
+                                {
+                                    rezultāts += komandasDaļas[3];
+                                }
+                                else
+                                {
+                                    rezultāts += "?";
+                                }
                             }
                             else
                             {
                                 rezultāts += "?";
                             }
                         }
-                        else {
-                            rezultāts += "?";
-                        }
+                    }
+                    
+                }
+                if (Nosaukums == "TEKSTS")
+                {
+                    if (VaiIrKods == false)
+                    { 
+                        string s = "";
+                        for (int i = 3; i < komandasDaļas.Length -1; i++)
+                            s  += komandasDaļas[i]+" ";
+                        s = s.Trim();
+                        rezultāts += endl + komandasDaļas[1] + " db \"" +s+ "\",0";
+
                     }
                 }
                 if (Nosaukums == "Kalkulēt".ToUpper())
