@@ -68,10 +68,10 @@ includelib \masm32\lib\msvcrt.lib" + Environment.NewLine +
                         if (komandasDaļas[1]== "TEKSTS")
                         {
                             string s = "";
-                            for (int i = 3; i < komandasDaļas.Length - 1; i++)
+                            for (int i = 4; i < komandasDaļas.Length - 1; i++)
                                 s += komandasDaļas[i] + " ";
                             s = s.Trim();
-                            rezultāts += endl + komandasDaļas[1] + " db \"" + s + "\",0";
+                            rezultāts += endl + komandasDaļas[2] + " db \"" + s + "\",0";
 
 
                         }
