@@ -15,10 +15,31 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SusisCORLIB;
 
 namespace Susis
 {
-    //abcd
+
+
+    class Viktors : object
+    {
+        public int x;
+        public int y;
+        public static int z;
+        public Viktors(int x, int y, int z)
+        {
+            this.x = x;
+            this.y = y;
+            Viktors.z = z;
+        }
+
+        public override string ToString()
+        {
+            return "nav uztaisīts!";
+        }
+    }
+
+    
     public partial class MainWindow : Window
     {
         protected static int x = 0;
@@ -28,6 +49,32 @@ namespace Susis
         public MainWindow()
         {
             InitializeComponent();
+
+            
+
+            //throw new StackOverflowException();
+
+            Viktors vekt = new Viktors(5, 10,563478);
+
+            //string s = "({0},{1},{2})";
+            // s = String.Format(s, vekt.x, vekt.y,Viktors.z);
+            
+            //MessageBox.Show(s);
+
+            
+
+            //foreach(int i in GetNums())
+            //    MessageBox.Show(i.ToString());
+
+            MessageBox.Show(vekt.ToString());
+        }
+
+        IEnumerable<int> GetNums()
+        {
+            int[] nums = new int[] { 1, 2, 3 };
+
+            foreach(var num in nums)
+                 yield return num;
         }
 
         public static string endl = Environment.NewLine;
@@ -387,6 +434,7 @@ END main";
 
 
             String asm = SuperKrutāFunkcijaKuraKompilēKodu(Code);
+             //String asm = MainCore.Compile(Code);
 
             MessageBox.Show(asm);
 
