@@ -45,15 +45,21 @@ namespace Susis
         protected static int z = 0;
 
         Dictionary<string, string> funkcijas = new Dictionary<string, string>();
+
+        ViewModel viewModel;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            viewModel = new ViewModel();
+            this.DataContext = viewModel;
 
             
 
             //throw new StackOverflowException();
 
-            Viktors vekt = new Viktors(5, 10,563478);
+            //Viktors vekt = new Viktors(5, 10,563478);
 
             //string s = "({0},{1},{2})";
             // s = String.Format(s, vekt.x, vekt.y,Viktors.z);
@@ -65,7 +71,7 @@ namespace Susis
             //foreach(int i in GetNums())
             //    MessageBox.Show(i.ToString());
 
-            MessageBox.Show(vekt.ToString());
+            //MessageBox.Show(vekt.ToString());
         }
 
         IEnumerable<int> GetNums()
@@ -428,7 +434,9 @@ END main";
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            String Code = tbx.Text;
+            string Code = "";
+            //String Code = tbx.Text;
+            Code = viewModel.Input;
 
 
 
@@ -473,6 +481,18 @@ END main";
             }
             
             
+
+        }
+
+        
+
+        private void btn2_Click(object sender, RoutedEventArgs e)
+        {
+            //viewModel.CompileButtonTitle = "Kompilējam3";
+        }
+
+        private void btn1_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }
