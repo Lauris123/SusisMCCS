@@ -46,14 +46,14 @@ namespace Susis
 
         Dictionary<string, string> funkcijas = new Dictionary<string, string>();
 
-        ViewModel viewModel;
+        //ViewModel viewModel;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            viewModel = new ViewModel();
-            this.DataContext = viewModel;
+            //viewModel = new ViewModel();
+            //this.DataContext = viewModel;
 
             
 
@@ -86,8 +86,8 @@ namespace Susis
 
         public static string SuperKrutāFunkcijaKuraKompilēKodu(string code)
         {
-            string rezultāts = @".586
-.MODEL flat, stdcall
+            string rezultāts = ".586"+ endl +
+@".MODEL flat, stdcall
 include \masm32\include\windows.inc
 include \masm32\macros\macros.asm
 include \masm32\include\masm32.inc
@@ -120,7 +120,7 @@ includelib \masm32\lib\msvcrt.lib" + Environment.NewLine +
                         if (komandasDaļas[1]== "TEKSTS")
                         {
                             string s = "";
-                            for (int i = 4; i < komandasDaļas.Length - 1; i++)
+                            for (int i = 5; i < komandasDaļas.Length - 1; i++)
                                 s += komandasDaļas[i] + " ";
                             s = s.Trim();
                             rezultāts += endl + komandasDaļas[2] + " db \"" + s + "\",0";
@@ -316,6 +316,7 @@ main PROC";
                 }
                 if (Nosaukums == "IELASĪTČARU")
                 {
+                    if (VaiIrKods == false)
                     {
                         VaiIrKods = true; rezultāts = rezultāts + "\r\n" + @" .code
 main PROC";
@@ -353,7 +354,7 @@ END main";
 
                 //Create Process Start information
                 ProcessStartInfo processStartInfo =
-                    new ProcessStartInfo(@"C:\\scm.exe");
+                    new ProcessStartInfo(@"C:\\temp\\scm.exe");
                 processStartInfo.ErrorDialog = false;
                 processStartInfo.UseShellExecute = false;
                 processStartInfo.RedirectStandardError = true;
@@ -434,17 +435,15 @@ END main";
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string Code = "";
-            //String Code = tbx.Text;
-            Code = viewModel.Input;
+            //string Code = "";
+            String Code = tbx.Text;
+            //Code = viewModel.Input;
 
 
 
             String asm = SuperKrutāFunkcijaKuraKompilēKodu(Code);
              //String asm = MainCore.Compile(Code);
-
-            MessageBox.Show(asm);
-
+            //tb.Text = asm;
 
             string mape = System.IO.Directory.GetCurrentDirectory();
             string asamblejamisFails = mape + "\\proga.asm";
@@ -661,3 +660,44 @@ IZVADĪT A
 //PĀRSTĀT
 //IELASĪT X
 
+//NOSAUKT A
+//NOSAUKT B
+//NOSAUKT D
+//NOSAUKT CC
+//NOSAUKT X
+//NOSAUKT param
+//NOSAUKT TEKSTS nskt = " dd ? "
+//NOSAUKT TEKSTS err2 = "err nskt"
+//NOSAUKT GG = 0
+//NOSAUKT QQ = 0
+//NOSAUKT spac = 32
+//IELASĪT X
+//IELASĪT4 X A B CC D
+//IELASĪTČARU param
+//VAI A = 110
+//PALIELINĀT GG
+//NĒ 
+//PIEŠĶIRT GG QQ
+//PĀRSTĀT
+//VAI B = 115
+//PALIELINĀT GG
+//NĒ 
+//PIEŠĶIRT GG QQ
+//PĀRSTĀT
+//VAI CC = 107
+//PALIELINĀT GG
+//NĒ 
+//PIEŠĶIRT GG QQ
+//PĀRSTĀT
+//VAI D = 116
+//PALIELINĀT GG
+//NĒ 
+//PIEŠĶIRT GG QQ
+//PĀRSTĀT
+//VAI GG = 4
+//IZVADĪTČARU param
+//IZVADĪTČARU spac
+//IZVADĪTTEKSTU nskt
+//NĒ
+//IZVADĪTTEKSTU err
+//PĀRSTĀT
