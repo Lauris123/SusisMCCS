@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SusisCORLIB;
 
 namespace SusisGUI
 {
@@ -25,8 +24,6 @@ namespace SusisGUI
         {
            
             InitializeComponent();
-
-            var a = new Class1();
    
 
         }
