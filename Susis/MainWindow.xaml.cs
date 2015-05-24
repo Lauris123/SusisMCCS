@@ -18,38 +18,146 @@ using System.Windows.Shapes;
 
 namespace Susis
 {
+    //class Viktors : IParaTests
+    //{
+    //    public int X
+    //    {
+    //        get;
+    //        set;
+    //    }
+    //    public int y;
+    //    public static int z;
+    //    public Viktors(int x, int y, int z)
+    //    {
+    //        this.X = x;
+    //        this.y = y;
+    //        Viktors.z = z;
+    //    }
 
+    //    public override bool VaiIrPara()
+    //    {
+    //        if (X % 2 == 0)
+    //            if (y % 2 == 0)
+    //                if (z % 2 == 0)
+    //                    return true;
 
-    class Viktors : object
-    {
-        public int x;
-        public int y;
-        public static int z;
-        public Viktors(int x, int y, int z)
-        {
-            this.x = x;
-            this.y = y;
-            Viktors.z = z;
-        }
+    //        return false;
+    //    }
 
-        public override string ToString()
-        {
-            return "nav uztaisīts!";
-        }
-    }
+    //    public override string ToString()
+    //    {
+    //        return "nav uztaisīts!";
+    //    }
+    //}
+
+    //class SkaitlisKuramNavParaTests : IParaTests
+    //{
+    //    int x;
+
+    //    public int X
+    //    {
+    //        get;
+    //        set;
+    //    }
+
+    //    public bool VaiIrPara()
+    //    {
+    //            if (x % 2 == 0)
+    //                return true;
+
+    //            return false;
+    //    }
+    //}
+
+    //class NeparaPirmskaitlis : SkaitlisKuramNavParaTests, IParaTests
+    //{
+    //    public int X
+    //    {
+    //        get;
+    //        set;
+    //    }
+
+    //    public override bool VaiIrPara()
+    //    {
+    //        return false;
+    //    }
+    //}
+
+    //interface IParaTests
+    //{
+    //    public int X { get; set; }
+
+    //    public bool VaiIrPara();
+    //}
 
     
     public partial class MainWindow : Window
     {
+        //private int KalkulētSkaitli(int param1, int param2, Func<int, int, int> funkcija)
+        //{
+        //    return funkcija(param1, param2);
+        //}
+
+        //private int Saskaitīt(int param1, int param2)
+        //{
+        //    return param1 + param2;
+        //}
+
+        //private int Reizināt(int param1, int param2) {
+        //    return param1 * param2;
+        //}
+
+        public delegate void MajaDegHandlers(string majasNosaukums, int dūmuLīmenis);
+
         protected static int x = 0;
         protected static int z = 0;
+
+        public event MajaDegHandlers MajaDeg;
 
         Dictionary<string, string> funkcijas = new Dictionary<string, string>();
 
         //ViewModel viewModel;
 
+        //private void Izsaukt_Dzesejus(string nos,int dumi)
+        //{
+            
+        //}
+
+        //private void Izsaukt_Policiju(string nos, int dumi)
+        //{
+            
+        //}
+
         public MainWindow()
         {
+           // var masivs = new int[3] { 1, 2, 3, 4 };
+
+           // var paraKvadrāti = masivs.Where(x => x % 2 == 0).Select(x => x * x).ToList();
+
+            //MajaDeg += Izsaukt_Dzesejus;
+            //MajaDeg += Izsaukt_Policiju;
+
+            //MajaDeg("kautkas",9001);
+
+            //var a = KalkulētSkaitli(2, 3, Saskaitīt);
+            //var b = KalkulētSkaitli(2, 3, Reizināt);
+            //int c = KalkulētSkaitli(2, 3, 
+            //    (Func<int, int, int>)(delegate(int param1, int param2)
+            //{
+            //    return param1 - param2;
+            //}));
+
+            //double x = (int)c;
+
+            //var skaitlis = new Skaitlis();
+            //skaitlis.x = 12;
+            //NeparaPirmskaitlis pirm = new NeparaPirmskaitlis();
+            //pirm.x = 13;
+
+            //var vaiIr = skaitlis.VaiIrPara();
+
+            //var vaiIr2 = pirm.VaiIrPara();
+
             InitializeComponent();
 
             //viewModel = new ViewModel();
@@ -73,6 +181,10 @@ namespace Susis
 
             //MessageBox.Show(vekt.ToString());
         }
+
+
+
+
 
         IEnumerable<int> GetNums()
         {
@@ -130,21 +242,28 @@ includelib \masm32\lib\msvcrt.lib" + Environment.NewLine +
                         else
                         {
 
-                            rezultāts += "\r\n" + komandasDaļas[1] + " dd ";
+                            rezultāts += "\r\n";
                             if (komandasDaļas.Length == 4)
                             {
                                 if (komandasDaļas[3] != "")
                                 {
+                                    rezultāts += komandasDaļas[1] + " dd ";
                                     rezultāts += komandasDaļas[3];
                                 }
                                 else
                                 {
-                                    rezultāts += "?";
+                                    rezultāts += "?";//hujviņzin ko tas tur dar'!
                                 }
                             }
                             else
                             {
-                                rezultāts += "?";
+                               string rezultātskompilācijai = IzsaucamIebūvētoKompilātoru("nskt "+komandasDaļas[1]);
+                               if (rezultātskompilācijai == "err nskt")
+                               {
+                                   MessageBox.Show("Kļūda kompilātorā err nskt");
+                                   return "";
+                               }
+                               rezultāts += rezultātskompilācijai;
                             }
                         }
                     }
@@ -268,7 +387,7 @@ main PROC";
                 }
                 if (Nosaukums == "PALIELINĀT")
                 {
-                    rezultāts += Environment.NewLine + "mov eax , " + komandasDaļas[1] + Environment.NewLine + "inc eax";
+                    rezultāts += Environment.NewLine + "mov eax , " + komandasDaļas[1] + Environment.NewLine + "inc eax"+endl+"mov "+komandasDaļas[1]+", eax";
                 }
                 if (Nosaukums == "IELASĪT")
                 {
@@ -344,9 +463,19 @@ END main";
         private static string IzsaucamIebūvētoKompilātoru(string p)
         {
 
-
+            string nos = null;
+            string[] param = p.Split(' ');
             StreamReader outputReader = null;
             StreamReader errorReader = null;
+            switch (param[0])
+            { 
+                case "rnda":
+                    nos = "scsr";
+                    break;
+                case "nskt":
+                    nos = "scsn";
+                    break;
+            }
 
             try
             {
@@ -354,7 +483,7 @@ END main";
 
                 //Create Process Start information
                 ProcessStartInfo processStartInfo =
-                    new ProcessStartInfo(@"C:\\temp\\scm.exe");
+                    new ProcessStartInfo(@"C:\\temp\\"+nos+".exe");
                 processStartInfo.ErrorDialog = false;
                 processStartInfo.UseShellExecute = false;
                 processStartInfo.RedirectStandardError = true;
@@ -370,7 +499,11 @@ END main";
                     //Get the output stream
                     StreamWriter myStreamWriter = process.StandardInput;
 
-                    myStreamWriter.Write(p);
+                    myStreamWriter.WriteLine(param[0]);
+                    if (param.Length == 2)
+                        myStreamWriter.WriteLine(param[1]);
+
+
                     myStreamWriter.Close();
 
                     outputReader = process.StandardOutput;
@@ -398,6 +531,7 @@ END main";
             }
 
             return null;
+             
         }
 
         public static string WriteLines(string[] arr)
@@ -443,7 +577,7 @@ END main";
 
             String asm = SuperKrutāFunkcijaKuraKompilēKodu(Code);
              //String asm = MainCore.Compile(Code);
-            //tb.Text = asm;
+            tb.Text = asm;
 
             string mape = System.IO.Directory.GetCurrentDirectory();
             string asamblejamisFails = mape + "\\proga.asm";
@@ -660,44 +794,44 @@ IZVADĪT A
 //PĀRSTĀT
 //IELASĪT X
 
-//NOSAUKT A
-//NOSAUKT B
-//NOSAUKT D
-//NOSAUKT CC
-//NOSAUKT X
-//NOSAUKT param
-//NOSAUKT TEKSTS nskt = " dd ? "
-//NOSAUKT TEKSTS err2 = "err nskt"
-//NOSAUKT GG = 0
-//NOSAUKT QQ = 0
-//NOSAUKT spac = 32
-//IELASĪT X
-//IELASĪT4 X A B CC D
-//IELASĪTČARU param
-//VAI A = 110
-//PALIELINĀT GG
-//NĒ 
-//PIEŠĶIRT GG QQ
-//PĀRSTĀT
-//VAI B = 115
-//PALIELINĀT GG
-//NĒ 
-//PIEŠĶIRT GG QQ
-//PĀRSTĀT
-//VAI CC = 107
-//PALIELINĀT GG
-//NĒ 
-//PIEŠĶIRT GG QQ
-//PĀRSTĀT
-//VAI D = 116
-//PALIELINĀT GG
-//NĒ 
-//PIEŠĶIRT GG QQ
-//PĀRSTĀT
-//VAI GG = 4
-//IZVADĪTČARU param
-//IZVADĪTČARU spac
-//IZVADĪTTEKSTU nskt
-//NĒ
-//IZVADĪTTEKSTU err
-//PĀRSTĀT
+////////////////////////////NOSAUKT A
+////////////////////////////NOSAUKT B
+////////////////////////////NOSAUKT D
+////////////////////////////NOSAUKT CC
+////////////////////////////NOSAUKT X
+////////////////////////////NOSAUKT param
+////////////////////////////NOSAUKT TEKSTS nskt = " dd ? "
+////////////////////////////NOSAUKT TEKSTS err2 = " err nskt "
+////////////////////////////NOSAUKT GG = 0
+////////////////////////////NOSAUKT QQ = 0
+////////////////////////////NOSAUKT spac = 32
+////////////////////////////IELASĪT X
+////////////////////////////IELASĪT4 X A B CC D
+////////////////////////////IELASĪTČARU param
+////////////////////////////VAI A = 110
+////////////////////////////PALIELINĀT GG
+////////////////////////////NĒ 
+////////////////////////////PIEŠĶIRT GG QQ
+////////////////////////////PĀRSTĀT
+////////////////////////////VAI B = 115
+////////////////////////////PALIELINĀT GG
+////////////////////////////NĒ 
+////////////////////////////PIEŠĶIRT GG QQ
+////////////////////////////PĀRSTĀT
+////////////////////////////VAI CC = 107
+////////////////////////////PALIELINĀT GG
+////////////////////////////NĒ 
+////////////////////////////PIEŠĶIRT GG QQ
+////////////////////////////PĀRSTĀT
+////////////////////////////VAI D = 116
+////////////////////////////PALIELINĀT GG
+////////////////////////////NĒ 
+////////////////////////////PIEŠĶIRT GG QQ
+////////////////////////////PĀRSTĀT
+////////////////////////////VAI GG = 4
+////////////////////////////IZVADĪTČARU param
+////////////////////////////IZVADĪTČARU spac
+////////////////////////////IZVADĪTTEKSTU nskt
+////////////////////////////NĒ
+////////////////////////////IZVADĪTTEKSTU err2
+////////////////////////////PĀRSTĀT
