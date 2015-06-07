@@ -14,19 +14,27 @@
 
         <Button
                 Grid.Column="0"
-                x:Name="btn1"
-             Click="Button_Click"
-                ></Button>
+                Command="{Binding CompileCommand}"
+                Content="Kompilēt"
+                />
 
-        
-        <TextBox x:Name="tbx"
-                    Grid.Row="1"
-                 
+        <Button
+                Grid.Column="1"
+                Command="{Binding RunCommand}"
+                Content="Palaist"
+                />
+
+
+        <TextBox 
+                Grid.Row="1"
+                Text="{Binding Input}"
                 AcceptsReturn="True"
-                ></TextBox>
-        <TextBox x:Name="tb" Grid.Row="1" Grid.Column="1"/>
+                />
         
-
+        <TextBox 
+                 Grid.Row="1" 
+                 Grid.Column="1"
+                 Text="{Binding Output}"
+                 />
     </Grid>
-    
 </Window>

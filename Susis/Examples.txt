@@ -1,0 +1,205 @@
+﻿NOSAUKT X = 1
+IELASĪT X
+IZVADĪT X
+
+NOSAUKT X = 1
+NOSAUKT Y = 1
+NOSAUKT V
+NOSAUKT Z = 14
+NOSAUKT I = 0
+IZVADĪT X
+RINDA
+IZVADĪT Y
+RINDA
+ATKĀRTOT
+PIEŠĶIRT V X
+KALKULĒT V + Y
+VAI V = 13
+IZVADĪT Z
+NĒ
+IZVADĪT V
+PĀRSTĀT
+RINDA
+PIEŠĶIRT Y X
+PIEŠĶIRT X V
+KALKULĒT I + 1
+KAMĒRNAV I = 10
+
+.586
+.MODEL flat, stdcall
+include \masm32\include\windows.inc
+include \masm32\macros\macros.asm
+include \masm32\include\masm32.inc
+include \masm32\include\gdi32.inc
+include \masm32\include\user32.inc
+include \masm32\include\kernel32.inc
+includelib\masm32\lib\masm32.lib
+includelib\masm32\lib\gdi32.lib
+includelib\masm32\lib\user32.lib
+includelib\masm32\lib\kernel32.lib
+include \masm32\include\msvcrt.inc
+includelib \masm32\lib\msvcrt.lib
+.data
+X dd 1
+Y dd 1
+V dd ?
+Z dd 14
+I dd 0
+ .code
+main PROC
+ mov eax , X
+print str$(eax)
+print chr$(13,10)
+ mov eax , Y
+print str$(eax)
+print chr$(13,10)
+atkartojums1:
+mov eax, X
+mov V , eax
+mov eax, V
+mov ebx , Y
+add eax, ebx
+mov V, eax
+mov eax, V
+cmp eax, 13
+jne leciens0
+ mov eax , Z
+print str$(eax)
+jmp parleciens0
+leciens0:
+ mov eax , V
+print str$(eax)
+parleciens0:
+print chr$(13,10)
+mov eax, X
+mov Y , eax
+mov eax, V
+mov X , eax
+mov eax, I
+add eax, 1
+mov I, eax
+mov ecx, I
+cmp ecx, 10
+jne atkartojums1
+mov eax, input ("beigas")
+ret
+ main ENDP
+END main
+
+
+NOSAUKT A
+NOSAUKT B
+NOSAUKT C
+NOSAUKT D
+NOSAUKT X
+IELASĪT X
+IELASĪT4 X A B C D
+IZVADĪT A
+IZVADĪT B
+IZVADĪT C
+IZVADĪT D
+/*
+NOSAUKT A
+IELASĪT A
+IZVADĪT A
+*/
+
+NOSAUKT X
+TEKSTS B " PAREIZI "
+TEKSTS FF " IEVADI PAROLI! "
+TEKSTS D " NEPAREIZI "
+NOSAUKT CC
+NOSAUKT DDD
+NOSAUKT AA
+NOSAUKT RR
+IZVADĪTTEKSTU FF
+IELASĪT X
+IELASĪT4 X CC DDD AA RR
+VAI CC = 97
+IZVADĪTTEKSTU B
+RINDA
+NĒ
+IZVADĪTTEKSTU D
+RINDA
+PĀRSTĀT
+
+TEKSTS rnda " print chr$(13,10) "
+TEKSTS err " err rnda "
+NOSAUKT A
+NOSAUKT B
+NOSAUKT CC
+NOSAUKT D
+NOSAUKT X
+NOSAUKT bools
+NOSAUKT GG = 1
+NOSAUKT QQ = 0
+IELASĪT X
+IELASĪT4 X A B CC D
+VAI A = 114 
+PIEŠĶIRT bools GG
+NĒ
+PIEŠĶIRT bools QQ
+PĀRSTĀT
+VAI B = 110 
+PIEŠĶIRT bools GG
+NĒ
+PIEŠĶIRT bools QQ
+PĀRSTĀT
+VAI CC = 100 
+PIEŠĶIRT bools GG
+NĒ
+PIEŠĶIRT bools QQ
+PĀRSTĀT
+VAI D = 97 
+PIEŠĶIRT bools GG
+NĒ
+PIEŠĶIRT bools QQ
+PĀRSTĀT
+VAI bools = 1
+IZVADĪTTEKSTU rnda
+NĒ
+IZVADĪTTEKSTU err
+PĀRSTĀT
+IELASĪT X
+
+NOSAUKT A
+NOSAUKT B
+NOSAUKT D
+NOSAUKT CC
+NOSAUKT X
+NOSAUKT param
+NOSAUKT TEKSTS nskt = " dd ? "
+NOSAUKT TEKSTS err2 = " err nskt "
+NOSAUKT GG = 0
+NOSAUKT QQ = 0
+NOSAUKT spac = 32
+IELASĪT X
+IELASĪT4 X A B CC D
+IELASĪTČARU param
+VAI A = 110
+PALIELINĀT GG
+NĒ 
+PIEŠĶIRT GG QQ
+PĀRSTĀT
+VAI B = 115
+PALIELINĀT GG
+NĒ 
+PIEŠĶIRT GG QQ
+PĀRSTĀT
+VAI CC = 107
+PALIELINĀT GG
+NĒ 
+PIEŠĶIRT GG QQ
+PĀRSTĀT
+VAI D = 116
+PALIELINĀT GG
+NĒ 
+PIEŠĶIRT GG QQ
+PĀRSTĀT
+VAI GG = 4
+IZVADĪTČARU param
+IZVADĪTČARU spac
+IZVADĪTTEKSTU nskt
+NĒ
+IZVADĪTTEKSTU err2
+PĀRSTĀT
