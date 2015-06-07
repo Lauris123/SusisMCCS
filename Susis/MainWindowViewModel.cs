@@ -89,8 +89,12 @@ IELASĪT X
         }
 
         #region "Privātās metodes"
+        string Print(string printValue)
+        {
+            return "\r\n mov eax , " + printValue + "\r\n" + "print str$(eax)";    
+        }
 
-        #region "Komandu metodēm"
+        #region "Komandu metodes"
 
         void ExecuteRunCommand()
         {
@@ -179,6 +183,7 @@ include \masm32\include\msvcrt.inc
 includelib \masm32\lib\msvcrt.lib" + Environment.NewLine +
 ".data" + _endl +
 "x db \"X\" ,0";
+
             string[] komandas = code.Split('\n');
             bool VaiIrKods = false;
             foreach (var komanda in komandas)
@@ -320,21 +325,15 @@ main PROC";
                 }
                 if (Nosaukums == "IZVADĪT")
                 {
-                    if (VaiIrKods == false)
-                    {
-                        VaiIrKods = true; rezultāts = rezultāts + "\r\n" + @" .code
-main PROC";
-                    }
-                    rezultāts = rezultāts + "\r\n mov eax , " + komandasDaļas[1] + "\r\n" + "print str$(eax)";
+                    rezultāts += AddCodeHeader(ref VaiIrKods);
+
+                    rezultāts += Print(komandasDaļas[1]);
                 }
                 if (Nosaukums == "PIEŠĶIRT")
                 {
-                    if (VaiIrKods == false)
-                    {
-                        VaiIrKods = true; rezultāts = rezultāts + "\r\n" + @" .code
-main PROC";
-                    }
-                    rezultāts += Environment.NewLine + "mov eax, " + komandasDaļas[2] + Environment.NewLine + "mov " + komandasDaļas[1] + " , eax";
+                    rezultāts += AddCodeHeader(ref VaiIrKods);
+
+                    rezultāts += Assign(komandasDaļas[2], komandasDaļas[1]);
                 }
                 if (Nosaukums == "RINDA")
                 {
@@ -426,6 +425,11 @@ END main";
             return rezultāts;
         }
 
+        private static string Assign(string assignFrom, string assignTo)
+        {
+            return Environment.NewLine + "mov eax, " + assignFrom + Environment.NewLine + "mov " + assignTo + " , eax";
+        }
+
         string CallBuiltInCompiler(string p)
         {
 
@@ -514,6 +518,17 @@ END main";
                 return false;
             }
             return true;
+        }
+
+        string AddCodeHeader(ref bool isCode) 
+        {
+            if (isCode == true)
+                return "";
+            else
+            {
+                isCode = true;
+                return "\r\n" + @" .code" + _endl + "main PROC";
+            }
         }
 
         #endregion
